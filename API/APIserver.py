@@ -1,8 +1,9 @@
 from flask import Flask, render_template, url_for, redirect, request
-from datetime import date, timedelta, datetime
+from datetime import date, timedelta
 
 app = Flask(__name__, static_url_path='')
 
+#Should be stored in a database so it can be retrieved
 today = date.today()
 yesterday = today - timedelta(days = 1)
 previousLoginDate = False
@@ -24,7 +25,7 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
-        #Should be retrieved from database, password should be hashed.
+        #Should be retrieved from database, password should be hashed. Users should in a database and retrieved
         user = request.form.get('username')
         password = request.form.get('password')
         if user == "admin" and password == "123456":
@@ -43,6 +44,7 @@ def mood():
         else:
             return redirect(url_for('login'))
     if request.method == 'POST':
+            #Needs to be looked at more to see if functionality works
             if previousLoginDate == yesterday:
                 streak += 1
             previousLoginDate = today
